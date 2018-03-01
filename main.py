@@ -20,3 +20,10 @@ def find_triple_angular_markers_from_template(template):
     for item in matched_triple_angular_markers:
         result_map[item] = None
     return result_map
+
+def get_user_input_for_list_external_dep(list):
+    user_inputs = {}
+    for item in list:
+        user_input = input("Please enter the value for " + item + ":")
+        user_inputs[item]=user_input
+    return user_inputs
