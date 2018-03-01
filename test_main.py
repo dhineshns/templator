@@ -28,8 +28,15 @@ class TestStringMethods(unittest.TestCase):
     def test_get_string_from_file_external_dep(self):
         file_name = "template.txt"
         result = main.get_string_from_file_external_dep(file_name)
-        expected = "Hi <<<TO_NAME>>>, Please return the <<<BOOK_NAME>> book, that you borrowed on <<<DATE>>>. Thank you so much <<<TO_NAME>>>. -Dhinesh"
+        expected = "Hi <<<TO_NAME>>>, Please return the <<<BOOK_NAME>>> book, that you borrowed on <<<DATE>>>. Thank you so much <<<TO_NAME>>>. -Dhinesh"
         self.assertEqual(result, expected)
+
+    ## Requirement 5 : Given a string with triple angular markers, return all of them in a map
+    def test_write_string_back_to_file_external_dep(self):
+        template = "Hi <<<TO_NAME>>>, Please return the <<<BOOK_NAME>>> book, that you borrowed on <<<DATE>>>. Thank you so much <<<TO_NAME>>>. -Dhinesh"
+        result = {"<<<TO_NAME>>>": None, "<<<BOOK_NAME>>>": None, "<<<DATE>>>": None}
+        self.assertEqual(result, main.find_triple_angular_markers_from_template(template))
+
 
 if __name__ == '__main__':
     unittest.main()
