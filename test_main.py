@@ -1,5 +1,6 @@
 import unittest
 import main as main
+from unittest.mock import patch
 
 class TestStringMethods(unittest.TestCase):
 
@@ -26,7 +27,7 @@ class TestStringMethods(unittest.TestCase):
 
     ## Requirement 4 : When given an abosolute file name reuturn the file's contents
     def test_get_string_from_file_external_dep(self):
-        file_name = "template.txt"
+        file_name = "t_template.txt"
         result = main.get_string_from_file_external_dep(file_name)
         expected = "Hi <<<TO_NAME>>>, Please return the <<<BOOK_NAME>>> book, that you borrowed on <<<DATE>>>. Thank you so much <<<TO_NAME>>>. -Dhinesh"
         self.assertEqual(result, expected)
@@ -37,6 +38,13 @@ class TestStringMethods(unittest.TestCase):
         result = {"<<<TO_NAME>>>": None, "<<<BOOK_NAME>>>": None, "<<<DATE>>>": None}
         self.assertEqual(result, main.find_triple_angular_markers_from_template(template))
 
+    ## Requirement 6 : Integration test. The main function go reads a file, and detects all the <<<>>>s and replaces with prompt map values and returns the results
+    @patch('main.FileIO.get_user_input_for_list_external_dep', return_value={"<<<TO_NAME>>>": "Spandana", "<<<BOOK_NAME>>>": "Outliers", "<<<DATE>>>" : "2017"})
+    def test_main(self, get_user_input_for_list_external_dep):
+        self.assertEqual(get_user_input_for_list_external_dep(['dummy']), {"<<<TO_NAME>>>": "Spandana", "<<<BOOK_NAME>>>": "Outliers",  "<<<DATE>>>" : "2017"})
+        file_name = "t_template.txt"
+        result = "Hi Spandana, Please return the Outliers book, that you borrowed on 2017. Thank you so much Spandana. -Dhinesh"
+        self.assertEqual(main.main(file_name), result)
 
 if __name__ == '__main__':
     unittest.main()

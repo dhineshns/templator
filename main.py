@@ -10,7 +10,10 @@ def gen_text_from_template(template, replaced_to_replacing_map):
     return template
 
 def get_string_from_file_external_dep(filename):
-    return open(filename, "r").read()
+    f = open(filename, "r")
+    cont = f.read()
+    f.close()
+    return cont
 
 def find_triple_angular_markers_from_template(template):
     # use regex to find the angular brackets
@@ -21,9 +24,25 @@ def find_triple_angular_markers_from_template(template):
         result_map[item] = None
     return result_map
 
-def get_user_input_for_list_external_dep(list):
-    user_inputs = {}
-    for item in list:
-        user_input = input("Please enter the value for " + item + ":")
-        user_inputs[item]=user_input
-    return user_inputs
+class FileIO:
+    def __init__(self):
+        self.user_inputs = {}
+    def get_user_input_for_list_external_dep(self, list):
+        for item in list:
+            user_input = input("Please enter the value for " + item + ":")
+            self.user_inputs[item]=user_input
+        return self.user_inputs
+
+def main(filename):
+    file_content = get_string_from_file_external_dep(filename)
+    triple_angular_markers = find_triple_angular_markers_from_template(file_content).keys()
+    fileIO = FileIO()
+    user_inputs = fileIO.get_user_input_for_list_external_dep(triple_angular_markers)
+    gen_text = gen_text_from_template(file_content, user_inputs)
+    return gen_text
+
+if(__name__ == "__main__"):
+    gen_text = main("template.txt")
+    print("************************************************************************************************")
+    print(gen_text)
+    print("************************************************************************************************")
