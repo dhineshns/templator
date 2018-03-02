@@ -14,6 +14,6 @@ Thank you so much <<<TO_NAME>>>.
 ```
 
 and run the following command via Terminal.
-> python templator.py templator.txt
+> python main.py templator.txt
 
 Follow the prompt and voila, you got your text generated. 
